@@ -1,0 +1,61 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --background: 5 5 5;
+    --foreground: 240 240 240;
+    --card: 20 20 20;
+    --accent-gold: 212 175 55;
+    --accent-silver: 192 192 192;
+}
+
+@layer base {
+
+    html,
+    body {
+        @apply bg-black text-foreground antialiased;
+        background-color: #000000;
+        /* Fallback absolute black */
+        scroll-behavior: smooth;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+    }
+}
+
+@layer components {
+
+    /* Ensure main container allows fixed background to show */
+    main {
+        isolation: isolate;
+    }
+}
+
+@layer utilities {
+    .glass-dark {
+        @apply bg-black/40 backdrop-blur-xl border border-white/5 shadow-2xl;
+    }
+
+    .text-gradient-gold {
+        @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F1C40F] to-[#D4AF37];
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #000;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #333;
+        border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
