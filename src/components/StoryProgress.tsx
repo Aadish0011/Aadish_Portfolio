@@ -1,12 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 
 const StoryProgress = () => {
-    // Simply return null or minimal div to keep structure if needed
-    // But since context is dark mode galaxy, let's make it a subtle thin line at top
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001,
+    });
+
     return (
-        <div className="fixed top-0 left-0 right-0 h-px bg-white/10 z-40 pointer-events-none" />
+        <motion.div
+            className="fixed top-0 left-0 right-0 h-[2px] z-[60] origin-left"
+            style={{
+                scaleX,
+                background:
+                    "linear-gradient(90deg, transparent, #D4AF37 30%, #F1C40F 50%, #D4AF37 70%, transparent)",
+            }}
+        />
     );
 };
 

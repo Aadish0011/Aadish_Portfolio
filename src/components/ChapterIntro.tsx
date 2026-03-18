@@ -1,100 +1,186 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Terminal, ArrowDown, Cpu, Shield, Globe } from "lucide-react";
+import { useRef, useEffect, useState } from "react";
+import { Cpu, Shield, Users, Globe, ArrowDown } from "lucide-react";
+
+const roles = ["AI Engineer", "Product Leader", "Patent Holder", "Team Builder"];
 
 const ChapterIntro = () => {
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
+    const [roleIndex, setRoleIndex] = useState(0);
+    const [displayText, setDisplayText] = useState("");
+    const [isDeleting, setIsDeleting] = useState(false);
+
+    useEffect(() => {
+        const currentRole = roles[roleIndex];
+        let timeout: NodeJS.Timeout;
+
+        if (!isDeleting && displayText === currentRole) {
+            timeout = setTimeout(() => setIsDeleting(true), 2200);
+        } else if (isDeleting && displayText === "") {
+            setIsDeleting(false);
+            setRoleIndex((prev) => (prev + 1) % roles.length);
+        } else {
+            timeout = setTimeout(
+                () => {
+                    setDisplayText(
+                        isDeleting
+                            ? currentRole.slice(0, displayText.length - 1)
+                            : currentRole.slice(0, displayText.length + 1)
+                    );
+                },
+                isDeleting ? 35 : 75
+            );
+        }
+
+        return () => clearTimeout(timeout);
+    }, [displayText, isDeleting, roleIndex]);
+
+    const stats = [
+        { icon: Cpu, value: "3", label: "Patents Filed" },
+        { icon: Users, value: "40+", label: "Engineers Led" },
+        { icon: Globe, value: "2000+", label: "Users Impacted" },
+        { icon: Shield, value: "80%", label: "AI Accuracy" },
+    ];
 
     return (
-        <section id="intro" className="chapter min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-            <div ref={ref} className="relative z-10 max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+        <section
+            id="intro"
+            ref={ref}
+            className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20"
+        >
+            {/* Orbital rings decoration */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none">
+                <div className="w-[500px] h-[500px] md:w-[700px] md:h-[700px] lg:w-[800px] lg:h-[800px] rounded-full border border-black/[0.03] dark:border-white/[0.03] animate-orbit" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] md:w-[480px] md:h-[480px] lg:w-[550px] lg:h-[550px] rounded-full border border-solar/[0.08] dark:border-solar/[0.05] animate-orbit-reverse" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] md:w-[260px] md:h-[260px] lg:w-[300px] lg:h-[300px] rounded-full border border-black/[0.03] dark:border-white/[0.04] animate-orbit-slow" />
 
-                {/* Text Content */}
-                <div className="text-left order-2 lg:order-1">
+                {/* Orbital planet dots */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-solar/50 shadow-[0_0_12px_rgba(212,175,55,0.4)]" />
+                <div className="absolute bottom-[20%] right-0 w-1.5 h-1.5 rounded-full bg-nebula-blue/50 shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
+                <div className="absolute top-[30%] left-0 w-1 h-1 rounded-full bg-nebula-purple/50 shadow-[0_0_8px_rgba(139,92,246,0.4)]" />
+            </div>
+
+            <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                    {/* Text */}
+                    <div className="order-2 lg:order-1">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.6 }}
+                            className="section-label mb-8"
+                        >
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                            Available for opportunities
+                        </motion.div>
+
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.8, delay: 0.15 }}
+                            className="text-5xl md:text-7xl lg:text-[5.5rem] font-display font-bold tracking-tight text-white mb-4 leading-[0.95]"
+                        >
+                            Aadish
+                            <br />
+                            <span className="text-gradient-solar">Parashar</span>
+                        </motion.h1>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.8, delay: 0.3 }}
+                            className="h-10 mb-8"
+                        >
+                            <span className="text-xl md:text-2xl text-muted font-light">
+                                {displayText}
+                                <span className="inline-block w-[2px] h-6 bg-solar ml-1 animate-pulse align-middle" />
+                            </span>
+                        </motion.div>
+
+                        <motion.p
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.8, delay: 0.45 }}
+                            className="text-lg text-muted max-w-lg mb-10 leading-relaxed"
+                        >
+                            I architect{" "}
+                            <span className="text-white font-medium">AI systems</span> that
+                            perceive, build infrastructure that scales, and lead teams that
+                            ship real products.
+                        </motion.p>
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={isInView ? { opacity: 1, y: 0 } : {}}
+                            transition={{ duration: 0.8, delay: 0.6 }}
+                            className="flex flex-wrap gap-4"
+                        >
+                            <a
+                                href="#projects"
+                                className="px-7 py-3.5 rounded-lg bg-solar text-void font-display font-bold text-sm tracking-wide hover:bg-solar-bright transition-all duration-300 glow-solar"
+                            >
+                                View Projects
+                            </a>
+                            <a
+                                href="#experience"
+                                className="px-7 py-3.5 rounded-lg border border-white/10 text-white font-display font-bold text-sm tracking-wide hover:bg-white/5 hover:border-white/20 transition-all duration-300"
+                            >
+                                My Journey
+                            </a>
+                        </motion.div>
+                    </div>
+
+                    {/* Stats Grid */}
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={isInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.8 }}
-                        className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-accent-gold text-xs font-mono tracking-widest mb-6"
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                        transition={{ duration: 1, delay: 0.3 }}
+                        className="order-1 lg:order-2"
                     >
-                        <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                        SYSTEM_ONLINE
-                    </motion.div>
-
-                    <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.2 }}
-                        className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white mb-6 leading-[0.9]"
-                    >
-                        AADISH<br />
-                        <span className="text-gray-500">PARASHAR</span>
-                    </motion.h1>
-
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.4 }}
-                        className="text-lg md:text-xl text-gray-400 max-w-xl mb-10 leading-relaxed font-light"
-                    >
-                        Architecting intelligence from raw data.
-                        I build <span className="text-white font-medium">AI systems</span> that perceive,
-                        infrastructure that scales, and products that lead.
-                    </motion.p>
-
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={isInView ? { opacity: 1, y: 0 } : {}}
-                        transition={{ duration: 0.8, delay: 0.6 }}
-                        className="flex flex-wrap gap-4"
-                    >
-                        <a href="#projects" className="px-8 py-3 bg-white text-black font-bold text-sm tracking-wide hover:bg-accent-gold hover:text-black transition-all">
-                            VIEW PROJECTS
-                        </a>
-                        <a href="#experience" className="px-8 py-3 border border-white/20 text-white font-bold text-sm tracking-wide hover:bg-white/10 transition-all">
-                            SYSTEM LOGS
-                        </a>
+                        <div className="grid grid-cols-2 gap-4">
+                            {stats.map((stat, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+                                    transition={{ duration: 0.6, delay: 0.4 + i * 0.1 }}
+                                    className="glass glass-hover rounded-xl p-6 group"
+                                >
+                                    <stat.icon
+                                        className="text-subtle mb-4 group-hover:text-solar transition-colors duration-300"
+                                        size={22}
+                                    />
+                                    <div className="text-3xl md:text-4xl font-display font-bold text-white mb-1">
+                                        {stat.value}
+                                    </div>
+                                    <div className="text-xs text-muted tracking-wider uppercase font-medium">
+                                        {stat.label}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     </motion.div>
                 </div>
 
-                {/* Right Side Visual/Stats */}
-                <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ duration: 1, delay: 0.4 }}
-                    className="order-1 lg:order-2 relative"
-                >
-                    <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {[
-                            { icon: Cpu, label: "AI ARCHITECTURE", val: "SCALABLE" },
-                            { icon: Shield, label: "PATENTS GRANTED", val: "03" },
-                            { icon: Terminal, label: "ENGINEERS LED", val: "25+" },
-                            { icon: Globe, label: "USERS IMPACTED", val: "2000+" }
-                        ].map((stat, i) => (
-                            <div key={i} className="bg-black/40 backdrop-blur-md border border-white/10 p-6 group hover:border-accent-gold/40 transition-colors">
-                                <stat.icon className="text-gray-500 mb-4 group-hover:text-accent-gold transition-colors" size={24} />
-                                <div className="text-3xl font-bold text-white mb-1 font-mono">{stat.val}</div>
-                                <div className="text-xs text-gray-400 tracking-widest uppercase">{stat.label}</div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Decorative Background Element behind stats */}
-                    <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 blur-3xl -z-10" />
-                </motion.div>
-
-                {/* Scroll Indicator */}
+                {/* Scroll indicator */}
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 2, duration: 1 }}
-                    className="absolute bottom-10 left-6 flex items-center gap-4"
+                    transition={{ delay: 2.5, duration: 1 }}
+                    className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
                 >
-                    <div className="h-px w-20 bg-white/20" />
-                    <span className="text-xs text-gray-500 font-mono">SCROLL TO INITIALIZE</span>
+                    <span className="text-[11px] text-subtle font-mono tracking-[0.2em] uppercase">
+                        Scroll to explore
+                    </span>
+                    <motion.div
+                        animate={{ y: [0, 8, 0] }}
+                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                        <ArrowDown size={16} className="text-solar/60" />
+                    </motion.div>
                 </motion.div>
             </div>
         </section>

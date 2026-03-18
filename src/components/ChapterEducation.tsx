@@ -2,36 +2,47 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { GraduationCap, MapPin, Calendar, Award, TrendingUp } from "lucide-react";
+import { GraduationCap, MapPin, Calendar, TrendingUp } from "lucide-react";
 
 const education = [
     {
-        period: "2021 - 2025",
+        period: "Mar 2026 — Present",
+        degree: "Master of Science (MS), Artificial Intelligence and Data Science",
+        school: "Deggendorf Institute of Technology",
+        location: "Germany",
+        highlight:
+            "Pursuing advanced studies in AI and data science at the intersection of research and industry.",
+        score: "In Progress",
+        tags: ["AI", "Data Science", "Research", "Europe"],
+    },
+    {
+        period: "2021 — 2025",
         degree: "B.E. in Computer Science (AI)",
         school: "Chitkara University",
         location: "Punjab, India",
-        highlight: "Where data science met deep learning, and curiosity became expertise.",
-        score: "CGPA: 8.68/10",
-        achievements: ["Core CSE", "Machine Learning", "Deep Learning", "Computer Vision"]
+        highlight:
+            "Where data science met deep learning, and curiosity became expertise.",
+        score: "CGPA: 8.68 / 10",
+        tags: ["Core CSE", "Machine Learning", "Deep Learning", "Computer Vision"],
     },
     {
-        period: "2019 - 2021",
-        degree: "Higher Secondary (12th - CBSE)",
+        period: "2019 — 2021",
+        degree: "Higher Secondary (12th — CBSE)",
         school: "Little Angels School",
         location: "India",
         highlight: "Building the foundation with science and mathematics.",
         score: "80.2%",
-        achievements: ["Science Stream", "CBSE Board"]
+        tags: ["Science Stream", "CBSE Board"],
     },
     {
-        period: "2017 - 2019",
-        degree: "Secondary School (10th - CBSE)",
+        period: "2017 — 2019",
+        degree: "Secondary School (10th — CBSE)",
         school: "Little Angels School",
         location: "India",
         highlight: "Where the love for problem-solving began.",
         score: "88.2%",
-        achievements: ["CBSE Board", "Strong Foundation"]
-    }
+        tags: ["CBSE Board", "Strong Foundation"],
+    },
 ];
 
 const ChapterEducation = () => {
@@ -39,79 +50,94 @@ const ChapterEducation = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="education" className="chapter min-h-screen py-32 relative">
-            <div className="max-w-6xl mx-auto px-6">
+        <section id="education" className="relative py-32">
+            <div className="max-w-5xl mx-auto px-6">
                 <motion.div
                     ref={ref}
-                    initial={{ opacity: 0, y: 50 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
                     className="text-center mb-20"
                 >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-accent-gold text-xs font-mono tracking-widest mb-6 uppercase">
+                    <div className="section-label mb-6">
                         <GraduationCap size={14} />
-                        02 / The Journey Begins
+                        Education
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white tracking-tighter">
-                        ACADEMIC <span className="text-gray-500">LOGS</span>
+                    <h2 className="section-heading mb-6">
+                        Academic{" "}
+                        <span className="text-gradient-solar">Journey</span>
                     </h2>
-                    <p className="text-lg text-gray-400 max-w-2xl mx-auto font-light leading-relaxed">
-                        My fascination with technology started in school,
-                        where numbers became logic, and logic became magic.
+                    <p className="text-lg text-muted max-w-2xl mx-auto leading-relaxed">
+                        My fascination with technology started in school, where numbers
+                        became logic, and logic became magic.
                     </p>
                 </motion.div>
 
                 {/* Timeline */}
                 <div className="relative">
-                    {/* Timeline line */}
-                    <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-white/10" />
+                    <div className="absolute left-6 md:left-1/2 md:-translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-solar/30 via-white/10 to-transparent" />
 
                     {education.map((item, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                            initial={{
+                                opacity: 0,
+                                x: index % 2 === 0 ? -30 : 30,
+                            }}
                             whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8, delay: index * 0.2 }}
-                            className={`relative flex items-center mb-16 ${index % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                                }`}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.7, delay: index * 0.15 }}
+                            className={`relative flex mb-16 last:mb-0 ${
+                                index % 2 === 0
+                                    ? "md:flex-row"
+                                    : "md:flex-row-reverse"
+                            }`}
                         >
-                            {/* Timeline dot */}
-                            <div className="absolute left-8 md:left-1/2 -translate-x-1/2 z-10 p-1 bg-black border border-accent-gold">
-                                <div className="w-2 h-2 bg-accent-gold" />
+                            {/* Timeline node */}
+                            <div className="absolute left-6 md:left-1/2 -translate-x-1/2 z-10">
+                                <div className="w-3 h-3 rounded-full bg-void border-2 border-solar shadow-[0_0_10px_rgba(212,175,55,0.3)]" />
                             </div>
 
-                            {/* Content card */}
-                            <div className={`ml-20 md:ml-0 md:w-1/2 ${index % 2 === 0 ? "md:pr-16" : "md:pl-16"}`}>
-                                <div className="glass-dark p-8 group hover:border-accent-gold/50 transition-colors">
-                                    <div className="flex items-center justify-between mb-4 border-b border-white/5 pb-4">
-                                        <div className="flex items-center gap-2 text-xs font-mono text-accent-gold">
+                            {/* Card */}
+                            <div
+                                className={`ml-16 md:ml-0 md:w-[calc(50%-2rem)] ${
+                                    index % 2 === 0
+                                        ? "md:pr-4 md:mr-auto"
+                                        : "md:pl-4 md:ml-auto"
+                                }`}
+                            >
+                                <div className="glass glass-hover rounded-xl p-7 group">
+                                    <div className="flex items-center justify-between mb-5">
+                                        <div className="flex items-center gap-2 text-xs font-mono text-solar tracking-wider">
                                             <Calendar size={12} />
                                             {item.period}
                                         </div>
-                                        <div className="flex items-center gap-2 px-2 py-1 bg-white/5 text-xs text-white border border-white/5">
-                                            <TrendingUp size={12} />
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-solar/[0.06] text-xs text-solar font-medium border border-solar/10">
+                                            <TrendingUp size={11} />
                                             {item.score}
                                         </div>
                                     </div>
 
-                                    <h3 className="text-xl font-bold mb-2 text-white">{item.degree}</h3>
-                                    <p className="text-gray-400 mb-1">{item.school}</p>
-
-                                    <div className="flex items-center gap-2 text-gray-500 text-xs mb-6 uppercase tracking-wider">
-                                        <MapPin size={12} />
+                                    <h3 className="text-xl font-display font-bold text-white mb-1.5 tracking-tight">
+                                        {item.degree}
+                                    </h3>
+                                    <p className="text-muted mb-1">{item.school}</p>
+                                    <div className="flex items-center gap-1.5 text-subtle text-xs mb-5">
+                                        <MapPin size={11} />
                                         {item.location}
                                     </div>
 
-                                    <p className="text-gray-300 mb-6 italic text-sm border-l-2 border-accent-gold/20 pl-4 py-1">
-                                        "{item.highlight}"
+                                    <p className="text-muted text-sm italic border-l-2 border-solar/20 pl-4 py-1 mb-5 leading-relaxed">
+                                        &ldquo;{item.highlight}&rdquo;
                                     </p>
 
                                     <div className="flex flex-wrap gap-2">
-                                        {item.achievements.map((ach, i) => (
-                                            <span key={i} className="flex items-center gap-1 text-[10px] uppercase tracking-wider bg-white/5 border border-white/5 text-gray-400 px-2 py-1 hover:text-white hover:border-white/20 transition-colors">
-                                                <Award size={10} />
-                                                {ach}
+                                        {item.tags.map((tag, i) => (
+                                            <span
+                                                key={i}
+                                                className="text-[10px] font-medium uppercase tracking-wider px-2.5 py-1 rounded-md bg-white/[0.04] text-muted border border-white/[0.06] hover:text-white hover:border-white/10 transition-colors"
+                                            >
+                                                {tag}
                                             </span>
                                         ))}
                                     </div>

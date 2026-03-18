@@ -2,60 +2,242 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-    --background: 5 5 5;
-    --foreground: 240 240 240;
-    --card: 20 20 20;
-    --accent-gold: 212 175 55;
-    --accent-silver: 192 192 192;
-}
-
 @layer base {
-
-    html,
-    body {
-        @apply bg-black text-foreground antialiased;
-        background-color: #000000;
-        /* Fallback absolute black */
+    html {
         scroll-behavior: smooth;
-        margin: 0;
-        padding: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .dark * { border-color: rgba(255, 255, 255, 0.06); }
+    .theme-light * { border-color: rgba(15, 23, 42, 0.08); }
+
+    body {
         overflow-x: hidden;
+        background: #030014;
+        color: #f1f5f9;
+    }
+    .theme-light body {
+        background: #f8fafc;
+        color: #1e293b;
+    }
+
+    .dark ::selection {
+        background: rgba(212, 175, 55, 0.3);
+        color: #fff;
+    }
+    .theme-light ::selection {
+        background: rgba(212, 175, 55, 0.25);
+        color: #0f172a;
     }
 }
 
 @layer components {
+    /* ── Glass cards ─────────────────────────────────────────── */
+    .glass {
+        @apply backdrop-blur-xl;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+    .glass-hover { @apply transition-all duration-500; }
+    .glass-hover:hover {
+        border-color: rgba(212, 175, 55, 0.2);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 30px rgba(212, 175, 55, 0.04);
+        transform: translateY(-2px);
+    }
 
-    /* Ensure main container allows fixed background to show */
-    main {
-        isolation: isolate;
+    /* ── Gradients ───────────────────────────────────────────── */
+    .text-gradient-solar {
+        @apply bg-clip-text text-transparent;
+        background-image: linear-gradient(135deg, #D4AF37 0%, #F1C40F 50%, #D4AF37 100%);
+    }
+    .text-gradient-nebula {
+        @apply bg-clip-text text-transparent;
+        background-image: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
+    }
+
+    /* ── Section styles ──────────────────────────────────────── */
+    .section-heading {
+        @apply text-4xl md:text-6xl lg:text-7xl font-display font-bold tracking-tight;
+        color: #ffffff;
+    }
+    .section-label {
+        @apply inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full text-xs font-mono tracking-[0.15em] uppercase;
+        background: rgba(212, 175, 55, 0.06);
+        border: 1px solid rgba(212, 175, 55, 0.12);
+        color: #D4AF37;
+    }
+
+    /* ── Glows ───────────────────────────────────────────────── */
+    .glow-solar {
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.15), 0 0 60px rgba(212, 175, 55, 0.05);
+    }
+    .glow-text-solar {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.3), 0 0 40px rgba(212, 175, 55, 0.1);
     }
 }
 
-@layer utilities {
-    .glass-dark {
-        @apply bg-black/40 backdrop-blur-xl border border-white/5 shadow-2xl;
-    }
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+.dark ::-webkit-scrollbar-track { background: #030014; }
+.dark ::-webkit-scrollbar-thumb { background: #1a1a3e; border-radius: 10px; }
+.dark ::-webkit-scrollbar-thumb:hover { background: #2a2a5e; }
+.theme-light ::-webkit-scrollbar-track { background: #f1f5f9; }
+.theme-light ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+.theme-light ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-    .text-gradient-gold {
-        @apply bg-clip-text text-transparent bg-gradient-to-r from-[#D4AF37] via-[#F1C40F] to-[#D4AF37];
-    }
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE OVERRIDES
+   Placed OUTSIDE @layer so they beat Tailwind utilities.
+   ═══════════════════════════════════════════════════════════════ */
 
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-        width: 6px;
-    }
+/* ── Text colors ──────────────────────────────────────────── */
+.theme-light .text-white { color: #0f172a !important; }
+.theme-light .text-foreground { color: #1e293b !important; }
+.theme-light .text-muted { color: #475569 !important; }
+.theme-light .text-subtle { color: #64748b !important; }
 
-    ::-webkit-scrollbar-track {
-        background: #000;
-    }
+/* ── Section heading / label overrides ────────────────────── */
+.theme-light .section-heading { color: #0f172a; }
+.theme-light .section-label {
+    background: rgba(212, 175, 55, 0.08);
+    border-color: rgba(212, 175, 55, 0.18);
+    color: #92700c;
+}
+.theme-light .text-solar { color: #92700c !important; }
+.theme-light .text-solar\/50 { color: rgba(146, 112, 12, 0.5) !important; }
+.theme-light .text-solar\/60 { color: rgba(146, 112, 12, 0.6) !important; }
 
-    ::-webkit-scrollbar-thumb {
-        background: #333;
-        border-radius: 3px;
-    }
+/* ── Glass cards (light) ──────────────────────────────────── */
+.theme-light .glass {
+    background: rgba(255, 255, 255, 0.75) !important;
+    border-color: rgba(15, 23, 42, 0.06) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(16px) saturate(1.5);
+}
+.theme-light .glass-hover:hover {
+    border-color: rgba(146, 112, 12, 0.2) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05), 0 16px 40px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(146, 112, 12, 0.05) !important;
+}
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: #555;
-    }
+/* ── Backgrounds with white opacity (dark-mode assumed) ───── */
+.theme-light [class*="bg-white\/[0.0"],
+.theme-light [class*="bg-white\/\[0.0"] {
+    background-color: rgba(241, 245, 249, 0.6) !important;
+}
+.theme-light .bg-white\/5,
+.theme-light [class*="bg-white/5"] {
+    background-color: rgba(241, 245, 249, 0.5) !important;
+}
+
+/* ── Borders with white opacity ───────────────────────────── */
+.theme-light [class*="border-white\/[0.0"],
+.theme-light [class*="border-white\/\[0.0"] {
+    border-color: rgba(15, 23, 42, 0.06) !important;
+}
+.theme-light .border-white\/10,
+.theme-light [class*="border-white/10"] {
+    border-color: rgba(15, 23, 42, 0.08) !important;
+}
+.theme-light .border-white\/20 {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+}
+
+/* ── Solar accent backgrounds ─────────────────────────────── */
+.theme-light [class*="bg-solar\/[0.0"],
+.theme-light [class*="bg-solar\/\[0.0"] {
+    background-color: rgba(146, 112, 12, 0.06) !important;
+}
+.theme-light .bg-solar\/10 {
+    background-color: rgba(146, 112, 12, 0.08) !important;
+}
+.theme-light [class*="border-solar\/1"],
+.theme-light [class*="border-solar\/2"] {
+    border-color: rgba(146, 112, 12, 0.15) !important;
+}
+
+/* ── bg-void for timeline dots ────────────────────────────── */
+.theme-light .bg-void {
+    background-color: #f8fafc !important;
+}
+
+/* ── Hover states ─────────────────────────────────────────── */
+.theme-light .hover\:bg-white\/5:hover {
+    background-color: rgba(15, 23, 42, 0.04) !important;
+}
+.theme-light .hover\:border-white\/10:hover {
+    border-color: rgba(15, 23, 42, 0.1) !important;
+}
+.theme-light .hover\:border-white\/20:hover {
+    border-color: rgba(15, 23, 42, 0.12) !important;
+}
+.theme-light .hover\:text-white:hover {
+    color: #0f172a !important;
+}
+.theme-light .hover\:bg-white\/10:hover {
+    background-color: rgba(15, 23, 42, 0.06) !important;
+}
+.theme-light .group:hover .group-hover\:text-solar {
+    color: #92700c !important;
+}
+.theme-light .group:hover .group-hover\:text-white {
+    color: #0f172a !important;
+}
+.theme-light .group-hover\/metric\:bg-solar\/10 {
+    background-color: rgba(146, 112, 12, 0.08) !important;
+}
+.theme-light .group:hover .group-hover\:bg-solar\/10 {
+    background-color: rgba(146, 112, 12, 0.08) !important;
+}
+.theme-light .group:hover .group-hover\:border-solar\/20 {
+    border-color: rgba(146, 112, 12, 0.18) !important;
+}
+
+/* ── Timeline lines (via-white/10 gradient) ───────────────── */
+.theme-light [class*="via-white\/10"] {
+    --tw-gradient-via: rgba(15, 23, 42, 0.08) !important;
+}
+.theme-light [class*="from-solar\/30"] {
+    --tw-gradient-from: rgba(146, 112, 12, 0.2) !important;
+}
+
+/* ── Outline button in closing section ────────────────────── */
+.theme-light .border-white\/10.text-white {
+    border-color: rgba(15, 23, 42, 0.12) !important;
+    color: #0f172a !important;
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+.theme-light footer {
+    border-color: rgba(15, 23, 42, 0.06) !important;
+}
+.theme-light footer .hover\:text-solar:hover {
+    color: #92700c !important;
+}
+
+/* ── Glow toned down in light mode ────────────────────────── */
+.theme-light .glow-solar {
+    box-shadow: 0 2px 8px rgba(146, 112, 12, 0.12), 0 0 20px rgba(146, 112, 12, 0.06);
+}
+
+/* ── Gradient text in light mode ──────────────────────────── */
+.theme-light .text-gradient-solar {
+    background-image: linear-gradient(135deg, #92700c 0%, #b8860b 50%, #92700c 100%) !important;
+}
+
+/* ── Green status badges ──────────────────────────────────── */
+.theme-light .bg-green-500\/10 { background-color: rgba(34, 197, 94, 0.08) !important; }
+.theme-light .text-green-400 { color: #16a34a !important; }
+.theme-light .border-green-500\/20 { border-color: rgba(34, 197, 94, 0.2) !important; }
+
+/* ── WhatsApp link in chatbot ─────────────────────────────── */
+.theme-light .bg-green-500\/10.text-green-400 {
+    background-color: rgba(34, 197, 94, 0.06) !important;
+    color: #16a34a !important;
+}
+
+/* ── Metric cards in projects ─────────────────────────────── */
+.theme-light [class*="bg-white\/\[0.015\]"] {
+    background-color: rgba(241, 245, 249, 0.5) !important;
 }

@@ -12,14 +12,12 @@ import AIAssistant from "@/components/AIAssistant";
 
 export default function Home() {
     return (
-        <main className="relative min-h-screen text-foreground bg-transparent selection:bg-accent-gold selection:text-black">
-            {/* Animated Canvas Background */}
+        <main className="relative min-h-screen text-foreground bg-transparent selection:bg-solar/30 selection:text-white">
             <GalaxyBackground />
-
-            <ChapterNav />
             <StoryProgress />
+            <ChapterNav />
 
-            <div className="relative z-10 scroll-container">
+            <div className="relative z-10">
                 <ChapterIntro />
                 <ChapterEducation />
                 <ChapterSkills />

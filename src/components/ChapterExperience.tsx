@@ -2,37 +2,52 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
-import { Briefcase, Calendar, Terminal, Network, Code2 } from "lucide-react";
+import { Briefcase, Calendar, Terminal, MapPin } from "lucide-react";
 
 const experiences = [
     {
-        role: "Associate Project Manager",
+        role: "Associate Project Manager & AI Engineer",
         company: "Heybobo.ai",
-        period: "AUG 2025 — PRESENT",
-        type: "ACTIVE DEPLOYMENT",
-        story: "Leading a 25-member engineering team (AI/ML + full-stack + Design) to deliver scalable AI-driven features. Orchestrating complex technical symphonies.",
+        period: "Jul 2025 — Mar 2026",
+        location: "Bengaluru, India · On-site",
+        isActive: false,
+        story:
+            "Leading cross-functional AI product development while contributing hands-on as an AI Engineer — building agentic, scalable AI systems from concept to production.",
         highlights: [
-            "Spearheading LLM integration projects using Google T5, Qwen, and open-source transformer models",
-            "Building NLP and chatbot automation systems",
-            "Delivering scalable AI-driven features within product timelines",
-            "Cross-functional coordination between AI, full-stack, and design teams"
+            "Managed and coordinated 40+ engineers across UI/UX, Frontend, Backend, AI/ML, and DevOps",
+            "Architected intelligent AI modules: Health Intelligence, Adaptive Learning, and Grooming Personalization",
+            "Designed agentic workflows using LangGraph for multi-step reasoning and decision orchestration",
+            "Built LLM-powered pipelines with structured prompt engineering and contextual memory",
+            "Developed autonomous AI agents with tool-calling capabilities",
+            "Drove sprint planning, roadmap execution, release cycles, and cross-team alignment",
+            "Delivered AI-first features end-to-end — from concept to production",
         ],
-        metrics: { team: "25+", scope: "AI/ML", focus: "LLMs" }
+        metrics: [
+            { label: "Team", value: "40+" },
+            { label: "AI Modules", value: "3" },
+            { label: "Focus", value: "Agentic AI" },
+        ],
     },
     {
         role: "Engineering Coordinator / PM",
         company: "Shinkan Pvt. Ltd.",
-        period: "AUG 2024 — JULY 2025",
-        type: "PREVIOUS DEPLOYMENT",
-        story: "Learned that great AI isn't just about algorithms — it's about building systems that work reliably for real users, at scale.",
+        period: "Aug 2024 — July 2025",
+        location: "India · Remote",
+        isActive: false,
+        story:
+            "Learned that great AI isn't just about algorithms — it's about building systems that work reliably for real users, at scale.",
         highlights: [
             "Fine-tuned COCO-SSD model for proctored exam environment, improving accuracy",
             "Managed a team of 10+ engineers; improved scalability by 50% through resource optimization",
             "Collaborated with stakeholders to align technical goals with product delivery timelines",
-            "Built infrastructure for real-time exam monitoring systems"
+            "Built infrastructure for real-time exam monitoring systems",
         ],
-        metrics: { team: "10+", scalability: "+50%", focus: "Vision AI" }
-    }
+        metrics: [
+            { label: "Team", value: "10+" },
+            { label: "Scale", value: "+50%" },
+            { label: "Focus", value: "Vision" },
+        ],
+    },
 ];
 
 const ChapterExperience = () => {
@@ -40,85 +55,122 @@ const ChapterExperience = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section id="experience" className="chapter min-h-screen py-32 bg-transparent">
-            <div className="max-w-6xl mx-auto px-6">
+        <section id="experience" className="relative py-32">
+            <div className="max-w-5xl mx-auto px-6">
                 <motion.div
                     ref={ref}
-                    initial={{ opacity: 0, y: 50 }}
+                    initial={{ opacity: 0, y: 40 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 0.8 }}
                     className="text-center mb-20"
                 >
-                    <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 text-accent-gold text-xs font-mono tracking-widest mb-6 uppercase">
+                    <div className="section-label mb-6">
                         <Briefcase size={14} />
-                        05 / Command Logs
+                        Experience
                     </div>
-                    <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white tracking-tighter">
-                        OPERATIONAL <span className="text-gray-500">HISTORY</span>
+                    <h2 className="section-heading mb-6">
+                        Work{" "}
+                        <span className="text-gradient-solar">History</span>
                     </h2>
+                    <p className="text-lg text-muted max-w-2xl mx-auto leading-relaxed">
+                        Building, leading, and shipping — from early-stage coordination
+                        to managing 40+ engineers and architecting AI systems.
+                    </p>
                 </motion.div>
 
-                <div className="relative border-l border-white/10 ml-4 md:ml-0 space-y-16">
-                    {experiences.map((exp, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 0.8 }}
-                            className="relative md:pl-12"
-                        >
-                            {/* Connector Line/Dot */}
-                            <div className="absolute -left-[5px] md:-left-[5px] top-0 w-2.5 h-2.5 bg-black border border-accent-gold rounded-full z-10" />
+                <div className="relative">
+                    {/* Timeline line */}
+                    <div className="absolute left-6 md:left-8 top-0 bottom-0 w-px bg-gradient-to-b from-solar/30 via-white/10 to-transparent" />
 
-                            <div className="grid md:grid-cols-12 gap-8">
-                                {/* Meta Data */}
-                                <div className="md:col-span-4 flex flex-col gap-2">
-                                    <div className="text-xs font-mono text-accent-gold tracking-widest mb-1 flex items-center gap-2">
-                                        <div className={`w-2 h-2 rounded-full ${index === 0 ? "bg-green-500 animate-pulse" : "bg-gray-600"}`} />
-                                        {exp.type}
-                                    </div>
-                                    <h3 className="text-2xl font-bold text-white leading-tight">{exp.role}</h3>
-                                    <div className="text-lg font-mono text-gray-400">{exp.company}</div>
-                                    <div className="text-xs text-gray-600 font-mono flex items-center gap-2 mt-2">
-                                        <Calendar size={12} />
-                                        {exp.period}
-                                    </div>
-
-                                    <div className="grid grid-cols-3 gap-2 mt-6">
-                                        {Object.entries(exp.metrics).map(([key, value], i) => (
-                                            <div key={i} className="bg-white/5 border border-white/5 p-2 text-center">
-                                                <div className="text-lg font-bold text-white">{value}</div>
-                                                <div className="text-[10px] uppercase text-gray-500">{key}</div>
-                                            </div>
-                                        ))}
-                                    </div>
+                    <div className="space-y-14">
+                        {experiences.map((exp, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-50px" }}
+                                transition={{ duration: 0.7, delay: index * 0.15 }}
+                                className="relative pl-16 md:pl-20"
+                            >
+                                {/* Timeline node */}
+                                <div className="absolute left-6 md:left-8 -translate-x-1/2 top-0">
+                                    <div
+                                        className={`w-3 h-3 rounded-full border-2 ${
+                                            exp.isActive
+                                                ? "bg-green-500 border-green-400 shadow-[0_0_12px_rgba(74,222,128,0.4)]"
+                                                : "bg-void border-solar shadow-[0_0_10px_rgba(212,175,55,0.2)]"
+                                        }`}
+                                    />
                                 </div>
 
-                                {/* Content */}
-                                <div className="md:col-span-8 bg-black/40 border border-white/5 p-8 relative hover:border-accent-gold/20 transition-colors">
-                                    {/* Corner Accents */}
-                                    <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20" />
-                                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20" />
-                                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20" />
-                                    <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20" />
+                                {/* Status */}
+                                <div className="flex items-center gap-3 mb-4">
+                                    {exp.isActive && (
+                                        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-500/10 text-green-400 border border-green-500/20">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
+                                            Current
+                                        </span>
+                                    )}
+                                    <span className="flex items-center gap-1.5 text-xs font-mono text-subtle">
+                                        <Calendar size={11} />
+                                        {exp.period}
+                                    </span>
+                                </div>
 
-                                    <p className="text-gray-400 mb-8 font-light italic border-l-2 border-accent-gold/20 pl-4">
-                                        "{exp.story}"
+                                <h3 className="text-2xl font-display font-bold text-white tracking-tight mb-1">
+                                    {exp.role}
+                                </h3>
+                                <p className="text-lg text-solar font-medium mb-1">
+                                    {exp.company}
+                                </p>
+                                {exp.location && (
+                                    <p className="flex items-center gap-1.5 text-xs text-subtle mb-6">
+                                        <MapPin size={11} />
+                                        {exp.location}
+                                    </p>
+                                )}
+
+                                <div className="glass rounded-xl p-7">
+                                    <p className="text-muted italic border-l-2 border-solar/20 pl-4 mb-6 leading-relaxed">
+                                        &ldquo;{exp.story}&rdquo;
                                     </p>
 
-                                    <div className="space-y-3">
+                                    <div className="space-y-3 mb-6">
                                         {exp.highlights.map((highlight, i) => (
-                                            <div key={i} className="flex gap-4 items-start group">
-                                                <Terminal size={16} className="text-accent-gold shrink-0 mt-1 opacity-50 group-hover:opacity-100 transition-opacity" />
-                                                <span className="text-gray-300 text-sm leading-relaxed">{highlight}</span>
+                                            <div
+                                                key={i}
+                                                className="flex gap-3 items-start group"
+                                            >
+                                                <Terminal
+                                                    size={14}
+                                                    className="text-solar/50 shrink-0 mt-1 group-hover:text-solar transition-colors duration-300"
+                                                />
+                                                <span className="text-sm text-muted leading-relaxed group-hover:text-foreground transition-colors duration-300">
+                                                    {highlight}
+                                                </span>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="flex gap-3 pt-4 border-t border-white/[0.06]">
+                                        {exp.metrics.map((m, i) => (
+                                            <div
+                                                key={i}
+                                                className="flex-1 text-center py-3 rounded-lg bg-white/[0.02] border border-white/[0.04]"
+                                            >
+                                                <div className="text-lg font-display font-bold text-white">
+                                                    {m.value}
+                                                </div>
+                                                <div className="text-[10px] uppercase text-subtle tracking-wider">
+                                                    {m.label}
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
-                            </div>
-                        </motion.div>
-                    ))}
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
